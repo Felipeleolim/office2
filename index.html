@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard de Licenças</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Dashboard de Licenças</h1>
+    <input type="file" id="csvFile" accept=".csv">
+    <input type="text" id="searchInput" placeholder="Buscar por nome ou e-mail">
+    <select id="licenseFilter">
+      <option value="">Todas as Licenças</option>
+    </select>
+    <button id="exportBtn">Exportar CSV</button>
+  </header>
+
+  <main>
+    <section class="dashboard">
+      <canvas id="pieChart" style="max-width: 300px; max-height: 300px;"></canvas>
+      <canvas id="barChart"></canvas>
+    </section>
+    <section class="tabela">
+      <table id="userTable">
+        <thead>
+          <tr>
+            <th data-sort="Display name">Nome</th>
+            <th data-sort="User principal name">E-mail</th>
+            <th data-sort="Licenses">Licença</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+    <section id="uploadHistory">
+      <h2>Histórico de Uploads</h2>
+      <ul id="historyList"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 - Sistema de Licenças</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Função de clique no gráfico de pizza para filtrar por licença
+    document.addEventListener("DOMContentLoaded", () => {
+      if (window.pieChartInstance) {
+        window.pieChartInstance.options.onClick = function (event, elements) {
+          if (elements.length > 0) {
+            const index = elements[0].index;
+            const label = window.pieChartInstance.data.labels[index];
+            const licenseFilter = document.getElementById('licenseFilter');
+            licenseFilter.value = label;
+            licenseFilter.dispatchEvent(new Event('change'));
+          }
+        };
+      }
+    });
+  </script>
+</body>
+</html>
