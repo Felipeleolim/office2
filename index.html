@@ -5,62 +5,96 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard de Licenças</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <header>
-    <h1>Dashboard de Licenças</h1>
-    <input type="file" id="csvFile" accept=".csv">
-    <input type="text" id="searchInput" placeholder="Buscar por nome ou e-mail">
-    <select id="licenseFilter">
-      <option value="">Todas as Licenças</option>
-    </select>
-    <button id="exportBtn">Exportar CSV</button>
-  </header>
+  <div class="app-container">
+    <header>
+      <div class="header-content">
+        <h1><i class="fas fa-id-card-alt"></i> Dashboard de Licenças</h1>
+        <div class="header-actions">
+          <div class="file-upload">
+            <label for="csvFile" class="upload-btn">
+              <i class="fas fa-upload"></i> Importar CSV
+              <input type="file" id="csvFile" accept=".csv">
+            </label>
+          </div>
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Buscar por nome ou e-mail">
+          </div>
+          <div class="filter-box">
+            <i class="fas fa-filter"></i>
+            <select id="licenseFilter">
+              <option value="">Todas as Licenças</option>
+            </select>
+          </div>
+          <button id="exportBtn" class="export-btn">
+            <i class="fas fa-file-export"></i> Exportar
+          </button>
+        </div>
+      </div>
+    </header>
 
-  <main>
-    <section class="dashboard">
-      <canvas id="pieChart" style="max-width: 300px; max-height: 300px;"></canvas>
-      <canvas id="barChart"></canvas>
-    </section>
-    <section class="tabela">
-      <table id="userTable">
-        <thead>
-          <tr>
-            <th data-sort="Display name">Nome</th>
-            <th data-sort="User principal name">E-mail</th>
-            <th data-sort="Licenses">Licença</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
-    <section id="uploadHistory">
-      <h2>Histórico de Uploads</h2>
-      <ul id="historyList"></ul>
-    </section>
-  </main>
+    <main>
+      <section class="dashboard-section">
+        <div class="chart-container">
+          <div class="chart-card">
+            <h2><i class="fas fa-chart-pie"></i> Distribuição de Licenças</h2>
+            <canvas id="pieChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <h2><i class="fas fa-chart-bar"></i> Quantidade por Licença</h2>
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+      </section>
 
-  <footer>
-    <p>© 2025 - Sistema de Licenças</p>
-  </footer>
+      <section class="data-section">
+        <div class="table-container">
+          <div class="table-header">
+            <h2><i class="fas fa-table"></i> Usuários e Licenças</h2>
+            <div class="table-info" id="tableInfo"></div>
+          </div>
+          <div class="table-scroll">
+            <table id="userTable">
+              <thead>
+                <tr>
+                  <th data-sort="Display name">
+                    <span>Nome</span>
+                    <i class="fas fa-sort"></i>
+                  </th>
+                  <th data-sort="User principal name">
+                    <span>E-mail</span>
+                    <i class="fas fa-sort"></i>
+                  </th>
+                  <th data-sort="Licenses">
+                    <span>Licença</span>
+                    <i class="fas fa-sort"></i>
+                  </th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="history-container">
+          <h2><i class="fas fa-history"></i> Histórico de Uploads</h2>
+          <div class="history-scroll">
+            <ul id="historyList"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2025 - Sistema de Licenças</p>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
-  <script>
-    // Função de clique no gráfico de pizza para filtrar por licença
-    document.addEventListener("DOMContentLoaded", () => {
-      if (window.pieChartInstance) {
-        window.pieChartInstance.options.onClick = function (event, elements) {
-          if (elements.length > 0) {
-            const index = elements[0].index;
-            const label = window.pieChartInstance.data.labels[index];
-            const licenseFilter = document.getElementById('licenseFilter');
-            licenseFilter.value = label;
-            licenseFilter.dispatchEvent(new Event('change'));
-          }
-        };
-      }
-    });
-  </script>
 </body>
 </html>
